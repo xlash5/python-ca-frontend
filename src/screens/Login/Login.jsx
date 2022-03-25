@@ -1,38 +1,33 @@
 import react from "react";
 import "./Login.css"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Screen from "../../components/Screen";
+import MyButton from "../../components/MyButton";
 
 
 function login() {
+    const navigate = useNavigate();
+
     return (
-        <div classname="background">
-            <div className="backgroundGradient">
-                <></>
-                <div className="navbar">
-                    <div className="appName">
-                        <h1 className="websiteName">Reddit</h1>
-                    </div>
-                </div>
-                <div className="loginForm">
-                    <div className="loginUsername">
-                        <input type="text" className="username" placeholder="USERNAME" required ></input>
-                    </div>
-                    <div className="loginPassword">
-                        <input type="text" className="password" placeholder="PASSWORD" required ></input>
-                    </div>
-                    <div className="allLoginButtons">
-                        <div className="loginButton">
-                            <button className="lgbutton">LOGIN</button>
-                        </div>
-                        <div className="signUpButton">
-                            <Link to="/SignUp">
-                                <button className="subutton">SIGN-UP</button>
-                            </Link>
-                        </div>
-                    </div>
+        <Screen>
+            <div className="navbar">
+                <div className="appName">
+                    <h1 className="websiteName">Reddit</h1>
                 </div>
             </div>
-        </div>
+            <div className="loginForm">
+                <div className="loginUsername">
+                    <input type="text" className="username" placeholder="USERNAME" required ></input>
+                </div>
+                <div className="loginPassword">
+                    <input type="text" className="password" placeholder="PASSWORD" required ></input>
+                </div>
+                <div className="allLoginButtons">
+                    <MyButton>LOGIN</MyButton>
+                    <MyButton onClick={() => { navigate('/SignUp') }} primary>SignUp</MyButton>
+                </div>
+            </div>
+        </Screen>
     );
 }
 

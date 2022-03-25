@@ -5,7 +5,6 @@ function signup() {
     return (
         <div className="background">
             <div className="backgroundGradient">
-                <></>
                 <div className="navbar">
                     <div className="appName">
                         <h1 className="websiteName">Reddit</h1>
