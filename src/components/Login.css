@@ -1,0 +1,84 @@
+.backgroundGradient {
+  width: 100%;
+  height: 100vh;
+  background-color: #8bc6ec;
+  background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow-y: auto;
+}
+
+.loginForm {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+  margin-right: 400px;
+  margin-left: 400px;
+  background-color: aliceblue;
+  border-radius: 20px;
+}
+
+.loginUsername {
+  display: grid;
+  justify-content: center;
+  padding: 20px;
+  margin: 5px;
+}
+
+.username {
+  border-radius: 5px;
+  text-align: center;
+  height: 30px;
+}
+
+.loginPassword {
+  display: grid;
+  justify-content: center;
+  padding: 20px;
+  margin: 5px;
+}
+
+.password {
+  border-radius: 5px;
+  text-align: center;
+  height: 30px;
+}
+
+.loginButton {
+  width: 150px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.lgbutton {
+  border-radius: 5px;
+  background-color: #8bc6ec;
+}
+
+.appName {
+  display: flex;
+  width: 100%;
+  color: aliceblue;
+  background-color: cornflowerblue;
+}
+
+.websiteName {
+  margin: 20px;
+}
+
+.signUpButton {
+  width: 150px;
+  padding: 20px;
+  margin: 10px;
+}
+
+.subutton {
+  border-radius: 5px;
+  background-color: #8bc6ec;
+}
+
+.allLoginButtons {
+  display: flex;
+}
