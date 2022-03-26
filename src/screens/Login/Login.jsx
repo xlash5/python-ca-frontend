@@ -19,7 +19,7 @@ function login() {
                 <MyInput placeholder="Password" type="password" />
                 <Row>
                     <MyButton>LOGIN</MyButton>
-                    <MyButton onClick={() => { navigate('/SignUp') }} primary>SignUp</MyButton>
+                    <MyButton onClick={() => { navigate('/SignUp') }} primary>Sign Up</MyButton>
                 </Row>
             </Card>
         </Screen>
