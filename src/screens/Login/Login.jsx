@@ -1,8 +1,11 @@
 import react from "react";
-import "./Login.css"
 import { useNavigate } from "react-router-dom";
 import Screen from "../../components/Screen";
 import MyButton from "../../components/MyButton";
+import Navbar from "../../components/Navbar";
+import Card from "../../components/AuthCard";
+import MyInput from "../../components/MyInput";
+import Row from "../../components/Row";
 
 
 function login() {
@@ -10,23 +13,15 @@ function login() {
 
     return (
         <Screen>
-            <div className="navbar">
-                <div className="appName">
-                    <h1 className="websiteName">Reddit</h1>
-                </div>
-            </div>
-            <div className="loginForm">
-                <div className="loginUsername">
-                    <input type="text" className="username" placeholder="USERNAME" required ></input>
-                </div>
-                <div className="loginPassword">
-                    <input type="text" className="password" placeholder="PASSWORD" required ></input>
-                </div>
-                <div className="allLoginButtons">
+            <Navbar />
+            <Card>
+                <MyInput placeholder="Username" type="text" />
+                <MyInput placeholder="Password" type="password" />
+                <Row>
                     <MyButton>LOGIN</MyButton>
                     <MyButton onClick={() => { navigate('/SignUp') }} primary>SignUp</MyButton>
-                </div>
-            </div>
+                </Row>
+            </Card>
         </Screen>
     );
 }

@@ -1,33 +1,28 @@
 import react from "react";
-import "./SignUp.css"
+import { useNavigate } from "react-router-dom";
+import Screen from "../../components/Screen";
+import MyButton from "../../components/MyButton";
+import Navbar from "../../components/Navbar";
+import Card from "../../components/AuthCard";
+import MyInput from "../../components/MyInput";
+import Row from "../../components/Row";
 
 function signup() {
+    const navigate = useNavigate();
+
     return (
-        <div className="background">
-            <div className="backgroundGradient">
-                <div className="navbar">
-                    <div className="appName">
-                        <h1 className="websiteName">Reddit</h1>
-                    </div>
-                </div>
-                <div className="signUpForm">
-                    <div className="signUpUsername">
-                        <input type="text" className="username" placeholder="USERNAME" required ></input>
-                    </div>
-                    <div className="signUpPassword">
-                        <input type="text" className="password" placeholder="PASSWORD" required ></input>
-                    </div>
-                    <div className="signUpConfirmPassword">
-                        <input type="text" className="confirmPassword" placeholder="CONFIRM PASSWORD" required ></input>
-                    </div>
-                    <div className="allSignUpButtons">
-                        <div className="signUpFormButton">
-                            <button className="sufbutton">SIGN-UP</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Screen>
+            <Navbar />
+            <Card>
+                <MyInput placeholder="Username" type="text" />
+                <MyInput placeholder="Password" type="password" />
+                <MyInput placeholder="Confirm Password" type="password" />
+                <Row>
+                    <MyButton>Sign Up</MyButton>
+                    <MyButton onClick={() => { navigate('/') }} primary>Go To Login</MyButton>
+                </Row>
+            </Card>
+        </Screen>
     )
 }
 

@@ -9,14 +9,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
 
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
-        </Routes>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
+      </Routes>
+    </Router>
   )
 }
 
