@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Screen from "../../components/Screen";
 import MyButton from "../../components/MyButton";
@@ -9,6 +9,9 @@ import Row from "../../components/Row";
 
 function signup() {
     const navigate = useNavigate();
+    useEffect(() => {
+        document.title = "Sign Up"
+    }, [])
 
     return (
         <Screen>
