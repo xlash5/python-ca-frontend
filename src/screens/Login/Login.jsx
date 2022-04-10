@@ -46,7 +46,6 @@ function login() {
                     <>
                         <Navbar />
                         <Card>
-                            <h1>{user ? user.email : "No User"}</h1>
                             <MyInput
                                 placeholder="Username"
                                 type="text"
