@@ -12,7 +12,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingAnimation from "../../components/LoadingAnimation";
 
 function login() {
-    const [username, setUsername] = useState("");
+    const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ function login() {
     }, [loading])
 
     const loginUser = () => {
-        signInWithEmailAndPassword(auth, username, password)
+        signInWithEmailAndPassword(auth, mail, password)
             .then((u) => {
                 console.log(u)
                 navigate('/Home')
@@ -47,9 +47,9 @@ function login() {
                         <Navbar />
                         <Card>
                             <MyInput
-                                placeholder="Username"
+                                placeholder="Mail"
                                 type="text"
-                                onChange={(e) => { setUsername(e.target.value) }} />
+                                onChange={(e) => { setMail(e.target.value) }} />
                             <MyInput
                                 placeholder="Password"
                                 type="password"
