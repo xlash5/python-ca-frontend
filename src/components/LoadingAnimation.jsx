@@ -4,7 +4,9 @@ import "react-activity/dist/library.css";
 
 const LoadingAnimation = () => {
     return (
-        <Bounce size={50} color="white" style={{ position: "absolute", top: "50%", left: "50%" }} />
+        <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '40vh' }}>
+            <Bounce size={50} color="white" />
+        </div>
     )
 }
 
