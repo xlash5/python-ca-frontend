@@ -1,7 +1,7 @@
 export default {
-    'NEWS': 1,
-    'SPORTS': 2,
-    'SOCIAL': 3,
-    'TECHNOLOGY': 4,
-    'ENTERTAINMENT': 5,
+    1: 'NEWS',
+    2: 'SPORTS',
+    3: 'SOCIAL',
+    4: 'TECHNOLOGY',
+    5: 'ENTERTAINMENT'
 }
