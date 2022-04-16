@@ -13,7 +13,7 @@ const NavbarContainer = styled.div`
 const Navbar = () => {
     return (
         <NavbarContainer>
-            <WhiteHeader>petIT</WhiteHeader>
+            <WhiteHeader>PETIT</WhiteHeader>
         </NavbarContainer>
     )
 }

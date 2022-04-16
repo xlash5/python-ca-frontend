@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Screen from '../../components/Screen'
-import MyButton from '../../components/MyButton';
-import { signOut } from "firebase/auth";
+import NavbarHome from "../../components/NavbarHome";
 import { auth } from '../../constants/Firebase';
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -19,22 +18,17 @@ function Home() {
         }
     }, [loading])
 
-    const signOutUser = () => {
-        signOut(auth).then(() => {
-            navigate('/');
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
 
     return (
+        
         <Screen>
             {
+
                 loading ? <LoadingAnimation /> :
                     <>
-                        <div>Home</div>
-                        <h1>{user ? user.email : "none"}</h1>
-                        <MyButton onClick={signOutUser}>Log Out</MyButton>
+                        <NavbarHome>
+                        </NavbarHome>
+
                     </>
             }
         </Screen>
