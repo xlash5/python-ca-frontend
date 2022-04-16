@@ -34,7 +34,7 @@ function NavbarHome({ signOutAction, createPostAction, userMail }) {
 
     return (
         <NavbarContainer>
-            <WhiteHeader>PETIT</WhiteHeader>
+            <WhiteHeader>petIT</WhiteHeader>
             <SmallWhiteText>You are logged in as {userMail}</SmallWhiteText>
             <ButtonContainer>
                 <MyButton onClick={createPostAction}>Create Post</MyButton>
