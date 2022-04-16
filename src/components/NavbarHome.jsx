@@ -1,65 +1,45 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import WhiteHeader from './WhiteHeader';
 import Palette from '../themes/Palette';
-import MyButtonHome from '../components/MyButtonHome';
-import CreatePostButon from './CreatePostButon';
-import { auth } from '../constants/Firebase';
-import { signOut } from "firebase/auth";
-import { Modal, Button } from "react-bootstrap";
-
-function NavbarHome(){
-
+import MyButton from '../components/MyButton';
 
 const NavbarContainer = styled.div`
-  display: flex;
-  background-color: ${Palette.primary};
-  padding-left: 20px;
-  padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: ${Palette.primary};
+    padding-left: 20px;
+    padding-right: 20px;
+    @media (max-width: 768px) {
+      flex-direction: column;
+  }
   `
+const SmallWhiteText = styled.p`
+    font-size: 14px;
+    color: ${Palette.whiteText};
+    margin-left: 10px;
+    font-weight: bold;
+    `
 
-const signOutUser = () => {
-    signOut(auth).then(() => {
-        navigate('/');
-    }).catch((error) => {
-        console.error(error);
-    });
-}
+const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+`
 
+function NavbarHome({ signOutAction, createPostAction, userMail }) {
 
-const [showModal, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
-  return (
+    return (
         <NavbarContainer>
-            <WhiteHeader>PETIT</WhiteHeader>
-            {/* <h1>{user ? user.email : "none"}</h1> */}
-            <CreatePostButon onClick={handleShow}>Create Post</CreatePostButon>
-
-            <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title>Create A Post</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Some Stuff</Modal.Body>
-                <Modal.Footer>
-                    <MyButtonHome variant="secondary" onClick={handleClose}>
-                         Close
-                    </MyButtonHome>
-                    <MyButtonHome variant="primary">
-                        Upload
-                    </MyButtonHome>
-                </Modal.Footer>
-            </Modal>
-
-
-
-
-            <MyButtonHome onClick={signOutUser}>Log Out</MyButtonHome>
-
+            <WhiteHeader>petIT</WhiteHeader>
+            <SmallWhiteText>You are logged in as {userMail}</SmallWhiteText>
+            <ButtonContainer>
+                <MyButton onClick={createPostAction}>Create Post</MyButton>
+                <MyButton onClick={signOutAction}>Sign Out</MyButton>
+            </ButtonContainer>
         </NavbarContainer>
     )
 }
