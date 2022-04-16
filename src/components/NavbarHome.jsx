@@ -1,70 +1,45 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import WhiteHeader from './WhiteHeader';
 import Palette from '../themes/Palette';
-import MyButtonHome from '../components/MyButtonHome';
-import CreatePostButon from './CreatePostButon';
-import { auth } from '../constants/Firebase';
-import { signOut } from "firebase/auth";
-import { Modal, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
+import MyButton from '../components/MyButton';
 
 const NavbarContainer = styled.div`
-  display: flex;
-  background-color: ${Palette.primary};
-  padding-left: 20px;
-  padding-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: ${Palette.primary};
+    padding-left: 20px;
+    padding-right: 20px;
+    @media (max-width: 768px) {
+      flex-direction: column;
+  }
   `
 const SmallWhiteText = styled.p`
-    font-size: 12px;
+    font-size: 14px;
     color: ${Palette.whiteText};
     margin-left: 10px;
+    font-weight: bold;
     `
 
-function NavbarHome() {
-    const navigate = useNavigate();
-    const [user, loading, error] = useAuthState(auth);
+const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+`
 
-    const signOutUser = () => {
-        signOut(auth).then(() => {
-            navigate('/');
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
-
-
-    const [showModal, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
+function NavbarHome({ signOutAction, createPostAction, userMail }) {
 
     return (
         <NavbarContainer>
             <WhiteHeader>PETIT</WhiteHeader>
-            <SmallWhiteText>You are logged in as {user.email}</SmallWhiteText>
-            <CreatePostButon onClick={handleShow}>Create Post</CreatePostButon>
-
-            <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title>Create A Post</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Some Stuff</Modal.Body>
-                <Modal.Footer>
-                    <MyButtonHome variant="secondary" onClick={handleClose}>
-                        Close
-                    </MyButtonHome>
-                    <MyButtonHome variant="primary">
-                        Upload
-                    </MyButtonHome>
-                </Modal.Footer>
-            </Modal>
-
-            <MyButtonHome onClick={signOutUser}>Log Out</MyButtonHome>
-
+            <SmallWhiteText>You are logged in as {userMail}</SmallWhiteText>
+            <ButtonContainer>
+                <MyButton onClick={createPostAction}>Create Post</MyButton>
+                <MyButton onClick={signOutAction}>Sign Out</MyButton>
+            </ButtonContainer>
         </NavbarContainer>
     )
 }
