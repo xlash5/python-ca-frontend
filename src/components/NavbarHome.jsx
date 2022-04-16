@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import styled from 'styled-components';
 import WhiteHeader from './WhiteHeader';
@@ -8,9 +8,8 @@ import CreatePostButon from './CreatePostButon';
 import { auth } from '../constants/Firebase';
 import { signOut } from "firebase/auth";
 import { Modal, Button } from "react-bootstrap";
-
-function NavbarHome(){
-
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const NavbarContainer = styled.div`
   display: flex;
@@ -18,26 +17,35 @@ const NavbarContainer = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   `
+const SmallWhiteText = styled.p`
+    font-size: 12px;
+    color: ${Palette.whiteText};
+    margin-left: 10px;
+    `
 
-const signOutUser = () => {
-    signOut(auth).then(() => {
-        navigate('/');
-    }).catch((error) => {
-        console.error(error);
-    });
-}
+function NavbarHome() {
+    const navigate = useNavigate();
+    const [user, loading, error] = useAuthState(auth);
+
+    const signOutUser = () => {
+        signOut(auth).then(() => {
+            navigate('/');
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
 
 
-const [showModal, setShow] = useState(false);
+    const [showModal, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
-  return (
+    return (
         <NavbarContainer>
             <WhiteHeader>PETIT</WhiteHeader>
-            {/* <h1>{user ? user.email : "none"}</h1> */}
+            <SmallWhiteText>You are logged in as {user.email}</SmallWhiteText>
             <CreatePostButon onClick={handleShow}>Create Post</CreatePostButon>
 
             <Modal show={showModal} onHide={handleClose}>
@@ -47,16 +55,13 @@ const [showModal, setShow] = useState(false);
                 <Modal.Body>Some Stuff</Modal.Body>
                 <Modal.Footer>
                     <MyButtonHome variant="secondary" onClick={handleClose}>
-                         Close
+                        Close
                     </MyButtonHome>
                     <MyButtonHome variant="primary">
                         Upload
                     </MyButtonHome>
                 </Modal.Footer>
             </Modal>
-
-
-
 
             <MyButtonHome onClick={signOutUser}>Log Out</MyButtonHome>
 

@@ -51,6 +51,7 @@ const LikeCount = styled.p`
     border-radius: 20px;
     padding: 5px;
     width: 30px;
+    text-align: center;
 `
 
 const ButtonContainer = styled.div`
