@@ -16,11 +16,16 @@ const PostDiv = styled.div`
     word-wrap: break-word;
     padding-left: 20px;
     padding-right: 20px;
+    @media (max-width: 768px) {
+        width: 80vw;
+  }
 `;
 
 const SmallText = styled.p`
     font-size: 12px;
     color: ${Palette.whiteText};
+    margin-top: 10px;
+    font-style: italic;
 `
 const PostImage = styled.img`
     width: 100%;
@@ -30,8 +35,9 @@ const PostImage = styled.img`
 
 const ButtonContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
 `
 
@@ -44,8 +50,8 @@ export default function ({ postedBy, onLike }) {
                 alt="post"
             />
             <ButtonContainer>
-                <LikeButton onClick={onLike}><FaThumbsUp color={Palette.primary} /></LikeButton>
                 <LikeCount>55</LikeCount>
+                <LikeButton onClick={onLike}><FaThumbsUp color={Palette.primary} /></LikeButton>
             </ButtonContainer>
         </PostDiv>
     )

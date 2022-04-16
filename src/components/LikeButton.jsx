@@ -5,9 +5,8 @@ export default styled.button`
     background-color: ${Palette.whiteText};
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
+    width: 35px;
+    height: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
