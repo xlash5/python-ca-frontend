@@ -62,6 +62,7 @@ function Home() {
                         <PostCard
                             postedBy={user.email}
                             onLike={() => { console.log('liked') }}
+                            imageUrl="https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg"
                         />
 
                         <Modal show={showModal} onHide={handleCloseModal}>

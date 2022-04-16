@@ -41,14 +41,16 @@ const ButtonContainer = styled.div`
     margin-bottom: 20px;
 `
 
-export default function ({ postedBy, onLike }) {
+export default function ({ postedBy, onLike, imageUrl }) {
     return (
         <PostDiv>
             <SmallText>posted by {postedBy}</SmallText>
-            <PostImage
-                src={'https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg'}
-                alt="post"
-            />
+            {
+                imageUrl && <PostImage
+                    src={imageUrl}
+                    alt="post"
+                />
+            }
             <ButtonContainer>
                 <LikeCount>55</LikeCount>
                 <LikeButton onClick={onLike}><FaThumbsUp color={Palette.primary} /></LikeButton>
