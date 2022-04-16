@@ -6,10 +6,15 @@ import { auth } from '../../constants/Firebase';
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingAnimation from '../../components/LoadingAnimation'
+import PostCard from '../../components/PostCard';
 
 function Home() {
     const navigate = useNavigate();
     const [user, loading, error] = useAuthState(auth);
+
+    useEffect(() => {
+        document.title = "Home";
+    }, [])
 
     // Redirect to login if the user not authenticated
     useEffect(() => {
@@ -32,7 +37,10 @@ function Home() {
             {
                 loading ? <LoadingAnimation /> :
                     <>
-                        <div>Home</div>
+                        <div style={{ visibility: 'hidden' }}>Home</div>
+
+                        <PostCard postedBy={user.email} />
+                        <PostCard postedBy={user.email} />
                         <h1>{user ? user.email : "none"}</h1>
                         <MyButton onClick={signOutUser}>Log Out</MyButton>
                     </>
