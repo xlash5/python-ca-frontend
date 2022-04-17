@@ -12,6 +12,7 @@ import TextArea from '../../components/TextArea';
 import FileInput from '../../components/FileInput';
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getStorage, ref, getDownloadURL, uploadBytesResumable, uploadBytes } from "firebase/storage";
 
 function Home() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Home() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedImageUrl, setSelectedImageUrl] = useState(null);
     const [postText, setPostText] = useState('');
+    const storage = getStorage();
 
     useEffect(() => {
         document.title = "Home";
@@ -55,8 +57,14 @@ function Home() {
     }
 
     const handleUploadImage = () => {
-        console.log('Uploading image');
-        inputFile.current.click();
+        const storageRef = ref(storage, `${Date.now()}${user.uid}${selectedImage.name}`);
+        uploadBytes(storageRef, selectedImage).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        }).then(() => {
+            getDownloadURL(storageRef).then((url) => {
+                console.log(url);
+            });
+        });
     }
 
     const handleCloseModal = () => {
@@ -107,7 +115,7 @@ function Home() {
                                 <MyButton variant="secondary" onClick={handleCloseModal}>
                                     Close
                                 </MyButton>
-                                <MyButton variant="primary" onClick={handleCloseModal}>
+                                <MyButton variant="primary" disabled={selectedImage ? false : true} onClick={handleUploadImage}>
                                     Create Post!
                                 </MyButton>
                             </Modal.Footer>
