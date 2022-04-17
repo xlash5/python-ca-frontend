@@ -25,7 +25,8 @@ function Home() {
     const [selectedImageUrl, setSelectedImageUrl] = useState(null);
     const [postText, setPostText] = useState('');
     const storage = getStorage();
-    const [modalCategoryChange, setModalCategoryChange] = useState(Categories[0]);
+    const [modalCategory, setModalCategory] = useState(Categories[0]);
+    const [category, setCategory] = useState(Categories[5]);
 
     useEffect(() => {
         document.title = "Home";
@@ -71,19 +72,21 @@ function Home() {
         });
     }
 
-    const onCategoryChange = (e) => {
-        console.log(e.value);
+    const onCategoryChange = async (e) => {
+        setCategory(e);
+        console.log(e);
     }
 
     const onModalCategoryChange = (e) => {
-        setModalCategoryChange(e);
+        setModalCategory(e);
+        console.log(e);
     }
 
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedImage(null);
         setSelectedImageUrl(null);
-        setModalCategoryChange(Categories[0]);
+        setModalCategory(Categories[0]);
     };
     const handleShowModal = () => setShowModal(true);
 
@@ -101,7 +104,7 @@ function Home() {
                         <Dropdown
                             options={Categories}
                             onChange={onCategoryChange}
-                            value={Categories[5]}
+                            value={category}
                             placeholder="Select an option"
                         />
                         <PostCard
@@ -123,7 +126,7 @@ function Home() {
                                 <Dropdown
                                     options={Categories.filter((category) => category.label !== 'ALL')}
                                     onChange={onModalCategoryChange}
-                                    value={modalCategoryChange}
+                                    value={modalCategory}
                                     placeholder="Select an option" />
                                 {selectedImageUrl &&
                                     <img
@@ -140,7 +143,7 @@ function Home() {
                                 <MyButton variant="secondary" onClick={handleCloseModal}>
                                     Close
                                 </MyButton>
-                                <MyButton variant="primary" disabled={selectedImage ? false : true} onClick={handleUploadImage}>
+                                <MyButton variant="primary" disabled={(selectedImage && modalCategory && postText) ? false : true} onClick={handleUploadImage}>
                                     Create Post!
                                 </MyButton>
                             </Modal.Footer>
