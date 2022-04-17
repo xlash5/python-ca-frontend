@@ -41,7 +41,7 @@ const ButtonContainer = styled.div`
     margin-bottom: 20px;
 `
 
-export default function ({ postedBy, onLike, imageUrl }) {
+export default function ({ postedBy, onLike, imageUrl, likeCount }) {
     return (
         <PostDiv>
             <SmallText>posted by {postedBy}</SmallText>
@@ -52,7 +52,7 @@ export default function ({ postedBy, onLike, imageUrl }) {
                 />
             }
             <ButtonContainer>
-                <LikeCount>55</LikeCount>
+                <LikeCount>{likeCount}</LikeCount>
                 <LikeButton onClick={onLike}><FaThumbsUp color={Palette.primary} /></LikeButton>
             </ButtonContainer>
         </PostDiv>
