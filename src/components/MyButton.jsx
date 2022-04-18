@@ -11,6 +11,7 @@ export default styled.button`
   border: 2px solid ${Palette.secondary};
   border-radius: 3px;
   min-height: 3em;
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   &:hover {
     background: ${props => props.primary ? "white" : Palette.secondary};
     color: ${props => props.primary ? Palette.secondary : "white"};
