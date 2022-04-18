@@ -109,6 +109,7 @@ function Home() {
                             postedBy={user.email}
                             onLike={() => { console.log('liked') }}
                             likeCount={2}
+                            disabled={true}
                             imageUrl="https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg"
                         />
 
