@@ -10,7 +10,7 @@ export default styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
     &:hover {
         background-color: ${Palette.secondary};
         color: ${Palette.whiteText};

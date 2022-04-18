@@ -1,7 +1,8 @@
-export default {
-    1: 'NEWS',
-    2: 'SPORTS',
-    3: 'SOCIAL',
-    4: 'TECHNOLOGY',
-    5: 'ENTERTAINMENT'
-}
+export default [
+    { value: 1, label: 'NEWS' },
+    { value: 2, label: 'SPORTS' },
+    { value: 3, label: 'SOCIAL' },
+    { value: 4, label: 'TECHNOLOGY' },
+    { value: 5, label: 'ENTERTAINMENT' },
+    { value: 6, label: 'ALL' }
+]

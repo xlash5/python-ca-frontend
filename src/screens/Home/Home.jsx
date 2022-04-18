@@ -12,7 +12,10 @@ import TextArea from '../../components/TextArea';
 import FileInput from '../../components/FileInput';
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getStorage, ref, getDownloadURL, uploadBytesResumable, uploadBytes } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import Categories from '../../constants/Categories';
 
 function Home() {
     const navigate = useNavigate();
@@ -22,6 +25,7 @@ function Home() {
     const [selectedImageUrl, setSelectedImageUrl] = useState(null);
     const [postText, setPostText] = useState('');
     const storage = getStorage();
+    const [modalCategory, setModalCategory] = useState(Categories[0]);
 
     useEffect(() => {
         document.title = "Home";
@@ -67,10 +71,20 @@ function Home() {
         });
     }
 
+    const onCategoryChange = (e) => {
+        console.log(e);
+    }
+
+    const onModalCategoryChange = (e) => {
+        setModalCategory(e);
+        console.log(e);
+    }
+
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedImage(null);
         setSelectedImageUrl(null);
+        setModalCategory(Categories[0]);
     };
     const handleShowModal = () => setShowModal(true);
 
@@ -85,9 +99,17 @@ function Home() {
                             createPostAction={handleShowModal}
                             userMail={user.email}
                             key={user.uid} />
+                        <Dropdown
+                            options={Categories}
+                            onChange={onCategoryChange}
+                            value={Categories[5]}
+                            placeholder="Select an option"
+                        />
                         <PostCard
                             postedBy={user.email}
                             onLike={() => { console.log('liked') }}
+                            likeCount={2}
+                            disabled={true}
                             imageUrl="https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg"
                         />
 
@@ -100,22 +122,30 @@ function Home() {
                                     placeholder="Post Content"
                                     type="password"
                                     onChange={(e) => { setPostText(e.target.value) }} />
+                                <Dropdown
+                                    options={Categories.filter((category) => category.label !== 'ALL')}
+                                    onChange={onModalCategoryChange}
+                                    value={Categories[0]}
+                                    placeholder="Select an option" />
                                 {selectedImageUrl &&
                                     <img
                                         src={selectedImageUrl}
                                         alt="Selected Image"
-                                        style={{ width: '100%' }}
+                                        style={{ width: '100%', marginTop: '10px' }}
                                     />}
                             </Modal.Body>
                             <Modal.Footer>
                                 <FileInput
-                                    type='file' id='file'
+                                    type='file'
                                     accept="image/png, image/jpeg, image/jpg"
                                     onChange={selectImage} />
                                 <MyButton variant="secondary" onClick={handleCloseModal}>
                                     Close
                                 </MyButton>
-                                <MyButton variant="primary" disabled={selectedImage ? false : true} onClick={handleUploadImage}>
+                                <MyButton
+                                    variant="primary"
+                                    disabled={(selectedImage && modalCategory && postText) ? false : true}
+                                    onClick={handleUploadImage}>
                                     Create Post!
                                 </MyButton>
                             </Modal.Footer>
