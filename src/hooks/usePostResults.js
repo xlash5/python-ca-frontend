@@ -11,10 +11,10 @@ export default () => {
         try {
             if (categoryId === 6) {
                 const response = await api.get('/api/ViewAllPosts');
-                setResults(response.data.results);
+                setResults(response.data.results.sort((a, b) => b.timestamp - a.timestamp));
             } else {
                 const response = await api.get(`/api/ViewPostByCategory/${categoryId}`);
-                setResults(response.data.results);
+                setResults(response.data.results.sort((a, b) => b.timestamp - a.timestamp));
             }
         } catch (e) {
             setErrorMessage('Something went wrong');

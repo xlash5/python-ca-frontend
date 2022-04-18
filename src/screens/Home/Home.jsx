@@ -20,6 +20,7 @@ import usePostResults from '../../hooks/usePostResults';
 import likePost from '../../api/likePost';
 import unlikePost from '../../api/unlikePost';
 import createPost from '../../api/createPost';
+import WhiteHeader from '../../components/WhiteHeader';
 
 function Home() {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ function Home() {
     const [postText, setPostText] = useState('');
     const storage = getStorage();
     const [modalCategory, setModalCategory] = useState(Categories[0]);
+    const [dropdownCategories, setDropdownCategories] = useState(Categories[5]);
     const [getPosts, results, errorMessage, loadingPosts] = usePostResults();
     const [usingApi, setUsingApi] = useState(false);
 
@@ -96,6 +98,7 @@ function Home() {
     }
 
     const onCategoryChange = (e) => {
+        setDropdownCategories(e);
         getPosts(e.value);
         console.log(e);
     }
@@ -127,22 +130,33 @@ function Home() {
                         <Dropdown
                             options={Categories}
                             onChange={onCategoryChange}
-                            value={Categories[5]}
+                            value={dropdownCategories}
                             placeholder="Select an option"
                         />
-                        {results && results.map((post) => {
-                            return (
-                                <PostCard
-                                    key={post._id}
-                                    postText={post.post_text}
-                                    postedBy={post.creator_id}
-                                    likedAlready={post.like.includes(user.email)}
-                                    onLike={() => post.like.includes(user.email) ? onUnlikeAction(post._id) : onLikeAction(post._id)}
-                                    likeCount={post.like.length}
-                                    imageUrl={post.media}
-                                />
-                            )
-                        })}
+                        {
+                            results.length === 0 ?
+                                <WhiteHeader>
+                                    No posts yet!
+                                </WhiteHeader>
+                                :
+                                results.map((post) => {
+                                    return (
+                                        <PostCard
+                                            key={post._id}
+                                            postText={post.post_text}
+                                            postedBy={post.creator_id}
+                                            likedAlready={post.like.includes(user.email)}
+                                            onLike={
+                                                () => post.like.includes(user.email) ?
+                                                    onUnlikeAction(post._id) :
+                                                    onLikeAction(post._id)
+                                            }
+                                            likeCount={post.like.length}
+                                            imageUrl={post.media}
+                                        />
+                                    )
+                                })
+                        }
                         <Modal show={showModal} onHide={handleCloseModal}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Create Post</Modal.Title>
