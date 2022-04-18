@@ -17,6 +17,9 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import Categories from '../../constants/Categories';
 import usePostResults from '../../hooks/usePostResults';
+import likePost from '../../api/likePost';
+import unlikePost from '../../api/unlikePost';
+import createPost from '../../api/createPost';
 
 function Home() {
     const navigate = useNavigate();
@@ -27,7 +30,8 @@ function Home() {
     const [postText, setPostText] = useState('');
     const storage = getStorage();
     const [modalCategory, setModalCategory] = useState(Categories[0]);
-    const [getPosts, results, errorMessage] = usePostResults();
+    const [getPosts, results, errorMessage, loadingPosts] = usePostResults();
+    const [usingApi, setUsingApi] = useState(false);
 
     useEffect(() => {
         document.title = "Home";
@@ -58,25 +62,37 @@ function Home() {
         reader.readAsDataURL(e.target.files[0]);
     }
 
-    const handleUploadImage = () => {
+    const handleUploadImage = async () => {
+        setUsingApi(true);
         const storageRef = ref(storage, `${Date.now()}${user.uid}${selectedImage.name}`);
         uploadBytes(storageRef, selectedImage).then((snapshot) => {
             console.log('Uploaded a blob or file!');
         }).then(() => {
             getDownloadURL(storageRef).then((url) => {
                 console.log(url);
+                createPost(user.email, postText, url, modalCategory.value).then(() => {
+                    console.log("Created a new post!");
+                }).catch((error) => {
+                    console.error(error);
+                });
             });
         });
+        setUsingApi(false);
+        // window.location.reload();
     }
 
     const onLikeAction = async (postId) => {
-        // await likePost(user.email,postId);
+        setUsingApi(true);
+        await likePost(postId, user.email);
         console.log(postId)
+        window.location.reload();
     }
 
     const onUnlikeAction = async (postId) => {
-        // await unlikePost(user.email, postId);
+        setUsingApi(true);
+        await unlikePost(postId, user.email);
         console.log(postId)
+        window.location.reload();
     }
 
     const onCategoryChange = (e) => {
@@ -101,7 +117,7 @@ function Home() {
 
         <Screen>
             {
-                !user ? <LoadingAnimation /> :
+                (!user || usingApi || loadingPosts) ? <LoadingAnimation /> :
                     <>
                         <NavbarHome
                             signOutAction={signOutUser}
@@ -117,9 +133,11 @@ function Home() {
                         {results && results.map((post) => {
                             return (
                                 <PostCard
+                                    key={post._id}
+                                    postText={post.post_text}
                                     postedBy={post.creator_id}
                                     likedAlready={post.like.includes(user.email)}
-                                    onLike={post.like.includes(user.email) ? onUnlikeAction(post.id) : onLikeAction(post.id)}
+                                    onLike={() => post.like.includes(user.email) ? onUnlikeAction(post._id) : onLikeAction(post._id)}
                                     likeCount={post.like.length}
                                     imageUrl={post.media}
                                 />

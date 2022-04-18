@@ -41,7 +41,15 @@ const ButtonContainer = styled.div`
     margin-bottom: 20px;
 `
 
-export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, likedAlready }) {
+const WhiteText = styled.p`
+    color: ${Palette.whiteText};
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: center;
+`
+
+export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, likedAlready, postText }) {
     return (
         <PostDiv>
             <SmallText>posted by {postedBy}</SmallText>
@@ -51,6 +59,7 @@ export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, like
                     alt="post"
                 />
             }
+            {postText && <WhiteText>{postText}</WhiteText>}
             <ButtonContainer>
                 <LikeCount>{likeCount}</LikeCount>
                 <LikeButton disabled={disabled} onClick={onLike}>

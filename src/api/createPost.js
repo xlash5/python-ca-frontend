@@ -1,6 +1,6 @@
 import api from './api';
 
-export default (creatorId, postText, imageUrl, categoryId) => {
+export default async (creatorId, postText, imageUrl, categoryId) => {
     try {
         const response = await api.post('/api/createPost', {
             creator_id: creatorId,
