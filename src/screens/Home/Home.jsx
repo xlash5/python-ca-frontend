@@ -16,6 +16,8 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import Categories from '../../constants/Categories';
+import usePostResults from '../../hooks/usePostResults';
+import createPost from '../../api/createPost';
 
 function Home() {
     const navigate = useNavigate();
@@ -26,6 +28,7 @@ function Home() {
     const [postText, setPostText] = useState('');
     const storage = getStorage();
     const [modalCategory, setModalCategory] = useState(Categories[0]);
+    const [getPosts, results, errorMessage] = usePostResults();
 
     useEffect(() => {
         document.title = "Home";
@@ -45,10 +48,6 @@ function Home() {
         }).catch((error) => {
             console.error(error);
         });
-    }
-
-    const createPost = () => {
-        console.log('Creating post');
     }
 
     const selectImage = (e) => {
@@ -71,7 +70,12 @@ function Home() {
         });
     }
 
+    const onLikeAction = async () => {
+        await createPost(user.email, postText, modalCategory.value, selectedImageUrl);
+    }
+
     const onCategoryChange = (e) => {
+        getPosts(e.value);
         console.log(e);
     }
 
@@ -105,14 +109,17 @@ function Home() {
                             value={Categories[5]}
                             placeholder="Select an option"
                         />
-                        <PostCard
-                            postedBy={user.email}
-                            onLike={() => { console.log('liked') }}
-                            likeCount={2}
-                            disabled={true}
-                            imageUrl="https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg"
-                        />
-
+                        {results && results.map((post) => {
+                            return (
+                                <PostCard
+                                    postedBy={post.creator_id}
+                                    onLike={onLikeAction}
+                                    likeCount={post.like.length}
+                                    disabled={post.like.includes(user.email)}
+                                    imageUrl={post.media}
+                                />
+                            )
+                        })}
                         <Modal show={showModal} onHide={handleCloseModal}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Create Post</Modal.Title>
