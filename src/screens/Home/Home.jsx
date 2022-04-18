@@ -17,7 +17,6 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import Categories from '../../constants/Categories';
 import usePostResults from '../../hooks/usePostResults';
-import createPost from '../../api/createPost';
 
 function Home() {
     const navigate = useNavigate();
@@ -70,8 +69,9 @@ function Home() {
         });
     }
 
-    const onLikeAction = async () => {
-        await createPost(user.email, postText, modalCategory.value, selectedImageUrl);
+    const onLikeAction = async (postId) => {
+        // await createPost(user.email, postText, modalCategory.value, selectedImageUrl);
+        console.log(postId)
     }
 
     const onCategoryChange = (e) => {
@@ -113,7 +113,7 @@ function Home() {
                             return (
                                 <PostCard
                                     postedBy={post.creator_id}
-                                    onLike={onLikeAction}
+                                    onLike={onLikeAction(post.id)}
                                     likeCount={post.like.length}
                                     disabled={post.like.includes(user.email)}
                                     imageUrl={post.media}
