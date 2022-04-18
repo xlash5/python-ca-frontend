@@ -6,7 +6,7 @@ export default async (creatorId, postText, imageUrl, categoryId) => {
             creator_id: creatorId,
             post_text: postText,
             media: imageUrl,
-            timestamp: new Date().getTime(),
+            timestamp: (new Date().getTime()).toString(),
             post_category: categoryId
         });
         return response.data;

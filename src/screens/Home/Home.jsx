@@ -67,20 +67,19 @@ function Home() {
     const handleUploadImage = async () => {
         setUsingApi(true);
         const storageRef = ref(storage, `${Date.now()}${user.uid}${selectedImage.name}`);
-        uploadBytes(storageRef, selectedImage).then((snapshot) => {
+        await uploadBytes(storageRef, selectedImage).then((snapshot) => {
             console.log('Uploaded a blob or file!');
         }).then(() => {
             getDownloadURL(storageRef).then((url) => {
                 console.log(url);
                 createPost(user.email, postText, url, modalCategory.value).then(() => {
                     console.log("Created a new post!");
+                    window.location.reload();
                 }).catch((error) => {
                     console.error(error);
                 });
             });
         });
-        setUsingApi(false);
-        // window.location.reload();
     }
 
     const onLikeAction = async (postId) => {
