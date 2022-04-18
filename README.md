@@ -11,7 +11,7 @@ To install dependencies
   yarn
 ```
 
-To run start the application as a dev
+To start the application as a dev
 
 ```bash
   yarn run dev
