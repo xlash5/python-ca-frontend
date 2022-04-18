@@ -70,7 +70,12 @@ function Home() {
     }
 
     const onLikeAction = async (postId) => {
-        // await createPost(user.email, postText, modalCategory.value, selectedImageUrl);
+        // await likePost(user.email,postId);
+        console.log(postId)
+    }
+
+    const onUnlikeAction = async (postId) => {
+        // await unlikePost(user.email, postId);
         console.log(postId)
     }
 
@@ -113,9 +118,9 @@ function Home() {
                             return (
                                 <PostCard
                                     postedBy={post.creator_id}
-                                    onLike={onLikeAction(post.id)}
+                                    likedAlready={post.like.includes(user.email)}
+                                    onLike={post.like.includes(user.email) ? onUnlikeAction(post.id) : onLikeAction(post.id)}
                                     likeCount={post.like.length}
-                                    disabled={post.like.includes(user.email)}
                                     imageUrl={post.media}
                                 />
                             )

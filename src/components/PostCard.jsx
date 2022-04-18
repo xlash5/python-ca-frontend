@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Palette from '../themes/Palette'
 import React from 'react';
-import { FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import LikeCount from './LikeCount';
 import LikeButton from './LikeButton';
 
@@ -41,7 +41,7 @@ const ButtonContainer = styled.div`
     margin-bottom: 20px;
 `
 
-export default function ({ postedBy, onLike, imageUrl, likeCount, disabled }) {
+export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, likedAlready }) {
     return (
         <PostDiv>
             <SmallText>posted by {postedBy}</SmallText>
@@ -53,7 +53,13 @@ export default function ({ postedBy, onLike, imageUrl, likeCount, disabled }) {
             }
             <ButtonContainer>
                 <LikeCount>{likeCount}</LikeCount>
-                <LikeButton disabled={disabled} onClick={onLike}><FaThumbsUp color={Palette.primary} /></LikeButton>
+                <LikeButton disabled={disabled} onClick={onLike}>
+                    {
+                        likedAlready ?
+                            <FaThumbsDown color={Palette.primary} /> :
+                            <FaThumbsUp color={Palette.primary} />
+                    }
+                </LikeButton>
             </ButtonContainer>
         </PostDiv>
     )
