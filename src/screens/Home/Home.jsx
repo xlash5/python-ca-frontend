@@ -26,7 +26,6 @@ function Home() {
     const [postText, setPostText] = useState('');
     const storage = getStorage();
     const [modalCategory, setModalCategory] = useState(Categories[0]);
-    const [category, setCategory] = useState(Categories[5]);
 
     useEffect(() => {
         document.title = "Home";
@@ -72,8 +71,7 @@ function Home() {
         });
     }
 
-    const onCategoryChange = async (e) => {
-        setCategory(e);
+    const onCategoryChange = (e) => {
         console.log(e);
     }
 
@@ -104,7 +102,7 @@ function Home() {
                         <Dropdown
                             options={Categories}
                             onChange={onCategoryChange}
-                            value={category}
+                            value={Categories[5]}
                             placeholder="Select an option"
                         />
                         <PostCard
@@ -126,7 +124,7 @@ function Home() {
                                 <Dropdown
                                     options={Categories.filter((category) => category.label !== 'ALL')}
                                     onChange={onModalCategoryChange}
-                                    value={modalCategory}
+                                    value={Categories[0]}
                                     placeholder="Select an option" />
                                 {selectedImageUrl &&
                                     <img
@@ -143,7 +141,10 @@ function Home() {
                                 <MyButton variant="secondary" onClick={handleCloseModal}>
                                     Close
                                 </MyButton>
-                                <MyButton variant="primary" disabled={(selectedImage && modalCategory && postText) ? false : true} onClick={handleUploadImage}>
+                                <MyButton
+                                    variant="primary"
+                                    disabled={(selectedImage && modalCategory && postText) ? false : true}
+                                    onClick={handleUploadImage}>
                                     Create Post!
                                 </MyButton>
                             </Modal.Footer>
