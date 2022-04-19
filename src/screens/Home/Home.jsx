@@ -16,6 +16,12 @@ import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import Categories from '../../constants/Categories';
+import usePostResults from '../../hooks/usePostResults';
+import likePost from '../../api/likePost';
+import unlikePost from '../../api/unlikePost';
+import createPost from '../../api/createPost';
+import deletePost from '../../api/deletePost';
+import WhiteHeader from '../../components/WhiteHeader';
 
 function Home() {
     const navigate = useNavigate();
@@ -26,6 +32,9 @@ function Home() {
     const [postText, setPostText] = useState('');
     const storage = getStorage();
     const [modalCategory, setModalCategory] = useState(Categories[0]);
+    const [dropdownCategories, setDropdownCategories] = useState(Categories[5]);
+    const [getPosts, results, errorMessage, loadingPosts] = usePostResults();
+    const [usingApi, setUsingApi] = useState(false);
 
     useEffect(() => {
         document.title = "Home";
@@ -47,10 +56,6 @@ function Home() {
         });
     }
 
-    const createPost = () => {
-        console.log('Creating post');
-    }
-
     const selectImage = (e) => {
         setSelectedImage(e.target.files[0]);
         var reader = new FileReader();
@@ -60,18 +65,45 @@ function Home() {
         reader.readAsDataURL(e.target.files[0]);
     }
 
-    const handleUploadImage = () => {
+    const handleUploadImage = async () => {
+        setUsingApi(true);
         const storageRef = ref(storage, `${Date.now()}${user.uid}${selectedImage.name}`);
-        uploadBytes(storageRef, selectedImage).then((snapshot) => {
+        await uploadBytes(storageRef, selectedImage).then((snapshot) => {
             console.log('Uploaded a blob or file!');
         }).then(() => {
             getDownloadURL(storageRef).then((url) => {
                 console.log(url);
+                createPost(user.email, postText, url, modalCategory.value).then(() => {
+                    console.log("Created a new post!");
+                    window.location.reload();
+                }).catch((error) => {
+                    console.error(error);
+                });
             });
         });
     }
 
+    const onLikeAction = async (postId) => {
+        setUsingApi(true);
+        await likePost(postId, user.email);
+        window.location.reload();
+    }
+
+    const handleDeletePost = async (postId) => {
+        setUsingApi(true);
+        await deletePost(postId, user.email);
+        window.location.reload();
+    }
+
+    const onUnlikeAction = async (postId) => {
+        setUsingApi(true);
+        await unlikePost(postId, user.email);
+        window.location.reload();
+    }
+
     const onCategoryChange = (e) => {
+        setDropdownCategories(e);
+        getPosts(e.value);
         console.log(e);
     }
 
@@ -92,7 +124,7 @@ function Home() {
 
         <Screen>
             {
-                !user ? <LoadingAnimation /> :
+                (!user || usingApi || loadingPosts) ? <LoadingAnimation /> :
                     <>
                         <NavbarHome
                             signOutAction={signOutUser}
@@ -102,17 +134,38 @@ function Home() {
                         <Dropdown
                             options={Categories}
                             onChange={onCategoryChange}
-                            value={Categories[5]}
+                            value={dropdownCategories}
                             placeholder="Select an option"
                         />
-                        <PostCard
-                            postedBy={user.email}
-                            onLike={() => { console.log('liked') }}
-                            likeCount={2}
-                            disabled={true}
-                            imageUrl="https://www.petsittersireland.com/wp-content/uploads/2018/02/Ragdoll-Cat-Blue-Eyes.jpg"
-                        />
-
+                        {
+                            results.length === 0 ?
+                                <WhiteHeader>
+                                    No posts yet!
+                                </WhiteHeader>
+                                :
+                                results.map((post) => {
+                                    return (
+                                        <PostCard
+                                            key={post._id}
+                                            onDelete={
+                                                post.creator_id === user.email ?
+                                                    () => handleDeletePost(post._id) :
+                                                    null
+                                            }
+                                            postText={post.post_text}
+                                            postedBy={post.creator_id}
+                                            likedAlready={post.like.includes(user.email)}
+                                            onLike={
+                                                () => post.like.includes(user.email) ?
+                                                    onUnlikeAction(post._id) :
+                                                    onLikeAction(post._id)
+                                            }
+                                            likeCount={post.like.length}
+                                            imageUrl={post.media}
+                                        />
+                                    )
+                                })
+                        }
                         <Modal show={showModal} onHide={handleCloseModal}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Create Post</Modal.Title>
