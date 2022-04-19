@@ -92,7 +92,7 @@ function Home() {
     const handleDeletePost = async (postId) => {
         setUsingApi(true);
         await deletePost(postId, user.email);
-        // window.location.reload();
+        window.location.reload();
     }
 
     const onUnlikeAction = async (postId) => {
