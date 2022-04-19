@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Palette from '../themes/Palette'
 import React from 'react';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaTrash } from 'react-icons/fa';
 import LikeCount from './LikeCount';
 import LikeButton from './LikeButton';
 
@@ -48,11 +48,33 @@ const WhiteText = styled.p`
     margin-top: 10px;
     text-align: center;
 `
+const TopRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+`
+const TrashIcon = styled.div`
+    color: ${Palette.whiteText};
+    cursor: 'pointer';
+`
 
-export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, likedAlready, postText }) {
+export default function ({ postedBy, onLike, imageUrl, likeCount, disabled, likedAlready, postText, onDelete }) {
     return (
         <PostDiv>
-            <SmallText>posted by {postedBy}</SmallText>
+            {
+                onDelete ?
+                    <TopRow>
+                        <SmallText>posted by {postedBy}</SmallText>
+                        <LikeButton onClick={onDelete}>
+                            <FaTrash color={Palette.primary} />
+                        </LikeButton>
+                    </TopRow>
+                    :
+                    <SmallText>posted by {postedBy}</SmallText>
+
+            }
             {
                 imageUrl && <PostImage
                     src={imageUrl}

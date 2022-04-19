@@ -20,6 +20,7 @@ import usePostResults from '../../hooks/usePostResults';
 import likePost from '../../api/likePost';
 import unlikePost from '../../api/unlikePost';
 import createPost from '../../api/createPost';
+import deletePost from '../../api/deletePost';
 import WhiteHeader from '../../components/WhiteHeader';
 
 function Home() {
@@ -85,14 +86,18 @@ function Home() {
     const onLikeAction = async (postId) => {
         setUsingApi(true);
         await likePost(postId, user.email);
-        console.log(postId)
         window.location.reload();
+    }
+
+    const handleDeletePost = async (postId) => {
+        setUsingApi(true);
+        await deletePost(postId, user.email);
+        // window.location.reload();
     }
 
     const onUnlikeAction = async (postId) => {
         setUsingApi(true);
         await unlikePost(postId, user.email);
-        console.log(postId)
         window.location.reload();
     }
 
@@ -142,6 +147,11 @@ function Home() {
                                     return (
                                         <PostCard
                                             key={post._id}
+                                            onDelete={
+                                                post.creator_id === user.email ?
+                                                    () => handleDeletePost(post._id) :
+                                                    null
+                                            }
                                             postText={post.post_text}
                                             postedBy={post.creator_id}
                                             likedAlready={post.like.includes(user.email)}
